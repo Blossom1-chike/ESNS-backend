@@ -13,6 +13,7 @@ const {
   authenticateUserPassword,
   getUserById,
   updateUser,
+  updateUserPassword,
 } = require("../services/user");
 const { translateError } = require("../services/mongo_helper");
 const sendEmergencyMessage = require("../helpers/sendMessage");
@@ -21,28 +22,26 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
   try {
     let { firstname, lastname, username, phone, email, password, credentials } =
       req.body;
-    console.log("Request body: ", req.body);
+   
 
     username = username === undefined ? firstname : username;
     const splitCredential = credentials.trim().split(" ");
 
-    console.log(splitCredential, "Split credentials");
 
     const contacts = [];
 
     for (let i in splitCredential) {
       if(splitCredential[i].includes("+")){
-        console.log(splitCredential[i], "crednetials")
+       
         const detail = {
           name: splitCredential[i].split("+")[0],
           phone: splitCredential[i].split("+")[2],
         };
-        console.log(detail, "Details", splitCredential[i].split("+")[0], splitCredential[i].split("+"), "values")
+      
         contacts.push(detail);
       }
     }
-    console.log("Contacts: omo ", contacts);
-
+   
     let user = await createUser({
       firstname,
       lastname,
@@ -53,7 +52,6 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
       contacts,
     });
 
-    console.log("New user created: ", user);
 
     user = user[1];
 
@@ -67,7 +65,7 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
     user.createdAt = undefined;
     user.updatedAt = undefined;
 
-    console.log("User after removing details: ", user);
+  
     return res
       .status(200)
       .json({
@@ -77,7 +75,7 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
         user,
       });
   } catch (error) {
-    console.log(error);
+   
     return res.status(400).json({
       error: "Something Went wrong",
       actualError: translateError(error),
@@ -115,7 +113,7 @@ router.post("/login", loginValidator(), async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+
     return res.status(400).json({
       error: "Something went wrong",
       actualError: error,
@@ -130,7 +128,7 @@ router.post("/user/sendNotification", async (req, res) => {
 
     const user = await getUserById({ _id: id });
 
-    // console.log(user)
+  
 
     if (user[0] === true) {
       if (latitude && longitude) {
@@ -139,7 +137,7 @@ router.post("/user/sendNotification", async (req, res) => {
           longitude,
           user: user[1],
         });
-        console.log(result);
+     
         return res.status(200);
       } else {
         return res.status(400).json({
@@ -156,7 +154,7 @@ router.post("/user/sendNotification", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+   
     return res.status(400).json({
       error: "Something went wrong",
       actualError: error,
@@ -170,7 +168,7 @@ router.get("/logout", (req, res) => {
     res.clearCookie("authToken");
     return res.json({ message: "Logout Successful" });
   } catch (error) {
-    console.log(error);
+
     return res.status(400).json({
       error: "Something went wrong",
       actualError: error,
@@ -181,13 +179,13 @@ router.get("/logout", (req, res) => {
 
 router.put("/user/editPersonalInfo/:id", updateUserValidator(), async(req, res) => {
   try {
-    console.log("Body: ", req.body)
+    
     const {id} = req.params;
-    console.log(id)
+ 
     let {firstname, lastname, phone} = req.body;
 
     let updatedUser = await updateUser(id, {firstname, lastname, phone});
-    console.log("updated user: ", updatedUser);
+   
 
     if(updatedUser[0] !== false){
       let user = updatedUser[1]
@@ -196,14 +194,14 @@ router.put("/user/editPersonalInfo/:id", updateUserValidator(), async(req, res) 
       user.createdAt = undefined;
       user.__v = undefined;
 
-      console.log("User to be sent: ", user);
+
       return res.json({message: "User updates successfully", data: user, status:"OK"})
     }else{
-      console.log(updatedUser, "Else statement")
+   
       return res.status(400).json({error: updatedUser[2], actualError: updatedUser[1], status: "NOT OK"});
     }
   } catch (error) {
-    console.log(error, "error")
+    
     return res.status(400).json({
       error: "Something went wrong",
       actualError: error,
@@ -217,8 +215,8 @@ router.put("/user/editPassword/:id", updatePasswordValidator(), validate, async(
     const {id} = req.params;
     const {confirmPassword} = req.body;
 
-    const updatedUserPassword = await updatedUserPassword(id, confirmPassword);
-    console.log("Updated user password: ", updatedUserPassword);
+    const updatedUserPassword = await updateUserPassword(id, confirmPassword);
+  
 
     if(updatedUserPassword[0] !== false){
       res.json({message:"Password updated successfully", status:"OK"})

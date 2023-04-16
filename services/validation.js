@@ -59,7 +59,7 @@ const emergencyTypeValidator= () => {
 }
 
 const loginValidator = () => {
-console.log("validaion file")
+console.log("validation file")
   return [
     body("email", "Email is required").trim().notEmpty(),
     body("password", "Password is required").trim().notEmpty(),
@@ -93,9 +93,12 @@ const updatePasswordValidator = () => {
     check("currentPassword")
       .custom(async (value, { req }) => {
         const { id } = req.params;
+        console.log(id, "omo")
         const user = await getUserById(id);
+        console.log("omo")
 
-        let isMatched = await authenticateUserPassword(user.email, value);
+        let isMatched = await authenticateUserPassword(user[1].email, value);
+        console.log(isMatched, "Results")
         if (isMatched[0] == false) {
           return Promise.reject();
         }

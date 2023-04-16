@@ -11,7 +11,7 @@ const sendEmergencyMessage = ({ latitude, longitude, user }) => {
 
   const contacts = user.contacts;
 
-  console.log(contacts, user, location);
+
 
   let messages = [];
 

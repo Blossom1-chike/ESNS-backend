@@ -5,7 +5,7 @@ const { ObjectId } = Schema;
 const EmergencyHistorySchema = new Schema(
   {
     user: { type: ObjectId, required: true, ref: "user" },
-    type: { type: ObjectId, required: true, ref: "type" },
+    type: { type: ObjectId, required: true, ref: "emergencytype" },
   },
   {
     timestamps: true,

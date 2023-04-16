@@ -44,6 +44,7 @@ connectToDB()
 //Routes
 app.use("/api", require("./controllers/user"));
 app.use("/api", require("./controllers/type"));
+app.use("/api", require("./controllers/history"));
 app.use("/api/admin", require("./controllers/admin")); //Admin route
 
 //When a route is non-existent

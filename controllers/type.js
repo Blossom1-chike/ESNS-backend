@@ -6,13 +6,12 @@ const router = express.Router();
 
 router.post("/add-emergency-type", emergencyTypeValidator(), validate, async(req, res) => {
     try {
-        // let {type, color, defaultContact} = req.body;
-        console.log("Request body: ", req.body.types);
+  
     
         let emergencytype = await saveAllEmergencyTypes(req.body.types);
     
         if(emergencytype[0] !== false){
-            console.log("Created type: ", emergencytype[1])
+        
             res.json({message: "Emergency type created successfully", status: "OK"})
         } else {
             return res.status(400).json({error: "Something went wrong.", actualError: emergencytype[1], status: "NOT OK" });

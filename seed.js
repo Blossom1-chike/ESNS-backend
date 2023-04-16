@@ -6,21 +6,6 @@ const { MONOGODB_URI } = process.env;
 const mongoose = require("mongoose");
 const { connectToDB } = require("./database/config");
 
-// mongoose.connect(
-//   MONOGODB_URI,
-//   {
-//     useUnifiedTopology: true,
-//     useNewUrlParser: true,
-//   },
-//   (err) => {
-//     if (err) {
-//       console.log("Error connecting to db: ", err);
-//     }else{
-//         console.log("Successfully connected to MongoDb @ ", MONOGODB_URI)
-//     }
-//   }
-// );
-
 connectToDB()
   .then(() => main())
   .catch((error) => console.log("Error connecting to db: ", error));

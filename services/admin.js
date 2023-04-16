@@ -14,7 +14,7 @@ const createAdmin = async ({ firstname, lastname, username, email, password, tok
             email, 
             password: await encryptPassword(password)
         })
-        console.log("Admin: ", admin);
+      
     
         const token = jwt.sign({id: admin._id, role: admin.role}, process.env.JWT_SECRET_KEY);
     
@@ -25,7 +25,7 @@ const createAdmin = async ({ firstname, lastname, username, email, password, tok
         }
     
     } catch (error) {
-        console.log(error);
+       
         return [false, translateError(error)]
     }
 }
@@ -33,7 +33,7 @@ const createAdmin = async ({ firstname, lastname, username, email, password, tok
 const authenticateAdmin = async (email, password) => {
     try {
         const admin = await Admin.findOne({email});
-        console.log(admin, "Found!")
+   
 
         if(admin && await bcrypt.compare(password, admin.password)){
             return [true, admin]
@@ -41,7 +41,7 @@ const authenticateAdmin = async (email, password) => {
             return [false, "Incorrect email/password"]
         }
     } catch (error) {
-        console.log(error);
+      
         return [false, translateError(error)]
     }   
 }
@@ -55,7 +55,7 @@ const getAdminById = async (id) => {
             return [false, "No such admin exists, Admin is null and/or has been deleted"];
         }
     } catch (error) {
-        console.log(error);
+     
         return [false, translateError(error)]
     }
 }
@@ -69,7 +69,7 @@ const getAdminByEmail = async (email) => {
             return [false, "No such admin with such email"];
         }
     } catch (error) {
-        console.log(error);
+    
         return [false, translateError(error)]
     }
 }
@@ -83,7 +83,7 @@ const updateAdmin = async (id, fields) => {
             return [false, "No admin with such id found, Admin is null and/or has been deleted", "Somethin went wrong"]
         }
     } catch (error) {
-        console.log(error);
+     
         return [false, translateError(error), "Something went wrong"]
     }
 }
@@ -97,7 +97,7 @@ const updateAdminPassword = async (id, password) => {
             return [false, "No admin with such id and password found, Admin is null and/or has been deleted", "Something went wrong"]
         }
     } catch (error) {
-        console.log(error);
+      
         return [false, translateError(error), "Something went wrong"]
     }
 }

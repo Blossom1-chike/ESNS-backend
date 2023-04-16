@@ -13,7 +13,7 @@ const verifyToken = async(req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET_KEY);
-        console.log('Decoded: ', decoded);
+      
         req.user = decoded;
     } catch (error) {
         console.log('Invalid token', err);
@@ -33,7 +33,7 @@ const isAdmin = (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, JWT_SECRET_KEY);
-        console.log("Decoded admin: ", decoded);
+       
         req.user = decoded;
 
         if(req.user.role !== "Admin"){
@@ -55,7 +55,7 @@ const isUserNotAdmin = (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, JWT_SECRET_KEY);
-        console.log("Decoded user: ", decoded);
+       
         req.user = decoded;
 
         if(req.user.role !== "User"){

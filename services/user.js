@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { translateError } = require("./mongo_helper");
 const { encryptPassword } = require("../helpers/encryptPassword");
+const { default: mongoose } = require("mongoose");
 
 /**Function to create a new user */
 const createUser = async ({
@@ -73,7 +74,9 @@ const getUserByEmail = async (email) => {
 
 /**Function to get a user by id */
 const getUserById = async (id) => {
-  const user = await User.findOne(id);
+  const _id = mongoose.Types.ObjectId(id);
+  const user = await User.findOne(_id);
+  console.log(user, "user exists")
   if (user !== null) {
     return [true, user];
   } else {
@@ -82,8 +85,9 @@ const getUserById = async (id) => {
 };
 
 const authenticateUserPassword = async (email, password) => {
+  console.log(email, password, "Details")
   const user = await User.findOne({ email });
-  console.log(user, "password");
+  console.log(password, "password");
 
   if (user && (await bcrypt.compare(password, user.password))) {
     return [true, user];
@@ -109,7 +113,7 @@ const updateUser = async (id, fields) => {
 
 const updateUserPassword = async(id, password) => {
     try {
-      const userWithPassword = await Admin.findByIdAndUpdate(id, {password: await encryptPassword(password)}, {new: true});
+      const userWithPassword = await User.findByIdAndUpdate(id, {password: await encryptPassword(password)}, {new: true});
       if(userWithPassword !== null) {
           return [true, userWithPassword];
       } else {
