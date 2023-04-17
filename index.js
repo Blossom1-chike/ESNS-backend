@@ -10,7 +10,8 @@ const PORT = process.env.SERVER_PORT || process.env.PORT || 4000;
 
 const corsOptions = {
     origin: [
-        // "http://localhost:3000",
+        "http://localhost:3000",
+        "https://esns-frontend-6b1l2ytol-blossom1-chike.vercel.app/", 
         "https://esns-backend-production-5467.up.railway.app/"
     ],
     credentials: true,  //access-control-allow-credentials:true
