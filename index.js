@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 });
 
 //To allow CORS
-app.use(cors(corsOptions));
+app.use(cors());
 
 //To allow json requests and to decode requests from forms
 app.use(express.json());
