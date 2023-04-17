@@ -12,6 +12,10 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "https://esns-frontend-6b1l2ytol-blossom1-chike.vercel.app",
+    "https://esns-frontend-gslorg805-blossom1-chike.vercel.app",
+    "https://esns-frontend-blossom1-chike.vercel.app",
+    "https://esns-frontend-git-main-blossom1-chike.vercel.app",
+    "https://esns-frontend-ashen.vercel.app"
   ],
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
