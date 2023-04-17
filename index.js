@@ -12,7 +12,6 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "https://esns-frontend-6b1l2ytol-blossom1-chike.vercel.app",
-    "https://esns-backend-production-5467.up.railway.app",
   ],
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
@@ -30,7 +29,7 @@ app.use(function (req, res, next) {
 });
 
 //To allow CORS
-app.use(cors());
+app.use(cors(corsOptions));
 
 //To allow json requests and to decode requests from forms
 app.use(express.json());
