@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { addEmergencyHistory, getHistoryByUser, getUserHistory } = require('../services/history');
+const { addEmergencyHistory, getHistoryByUser, getUserHistory, getDashboardHistory, deleteEmergencyHistory } = require('../services/history');
 const router = express.Router();
 
 router.post("/add-emergency-history", async(req, res) => {
@@ -29,6 +29,36 @@ router.get("/user-emergency-history/:id", async(req, res) => {
             res.json({message: "All emergency types returned successfully", status: "OK", history: userHistories[1]})
         }else{
             res.status(400).json({error: "Something went wrong.", actualError: userHistories[1], status: "NOT OK"})
+        }
+    } catch (error) {
+        return res.status(400).json({error: "Something went wrong", actualError: error, status: "NOT OK"})
+    }
+})
+
+router.get("/dashboard-history", async(req, res) => {
+   
+    try {
+        const allHistories = await getDashboardHistory();
+        
+        if(allHistories[0] !== false){
+            res.json({message: "All emergency types returned successfully", status: "OK", history: allHistories[1]})
+        }else{
+            res.status(400).json({error: "Something went wrong.", actualError: allHistories[1], status: "NOT OK"})
+        }
+    } catch (error) {
+        return res.status(400).json({error: "Something went wrong", actualError: error, status: "NOT OK"})
+    }
+})
+
+router.delete("/delete-emergency-history/:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const deletedHistory = await deleteEmergencyHistory(id);
+        if(deletedHistory[0] !== false){
+            res.json({message: "Emergency type deleted successfully", status: "OK"})
+        }else{
+            res.status(400).json({error: "Something went wrong.", actualError: deletedHistory[1], status: "NOT OK"})
         }
     } catch (error) {
         return res.status(400).json({error: "Something went wrong", actualError: error, status: "NOT OK"})

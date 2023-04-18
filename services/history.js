@@ -11,7 +11,6 @@ const addEmergencyHistory = async (body) => {
   try {
     const id = type;
     const emergencyType = await getEmergencyTypeById(id);
-    console.log(emergencyType, "Type", body);
 
     const message = await sendManualEmergency({
       latitude,
@@ -36,7 +35,6 @@ const getAllHistory = async () => {
   try {
     const allHistory = EmergencyHistory.find({});
  
-
     if (allHistory !== null) {
       return [true, allHistory];
     } else {
@@ -61,8 +59,42 @@ const getHistoryByUser = async (id) => {
   }
 };
 
+const getDashboardHistory = async () => {
+  try {
+    const print = await EmergencyHistory.aggregate([{
+      $group: {_id: "$type", count: {$sum: 1}}
+    }]);
+
+    if(print !== null){
+      return [true, print]
+    }else{
+      return [false, "No dashboard history data"]
+    }
+  } catch (error) {
+    return [false, translateError(error)];
+  }
+}
+
+const deleteEmergencyHistory = async (id) => {
+  try {
+    const deletedHistory = await EmergencyHistory.findOneAndDelete(id);
+    if (deletedHistory) {
+      return [true, deletedHistory];
+    } else {
+      return [
+        false,
+        "Emergency history does not exist, It is null or has been deleted",
+      ];
+    }
+  } catch (error) {
+    return [false, translateError(error)];
+  }
+};
+
 module.exports = {
   addEmergencyHistory,
   getAllHistory,
   getHistoryByUser,
+  getDashboardHistory,
+  deleteEmergencyHistory
 };

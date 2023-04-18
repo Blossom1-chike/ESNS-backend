@@ -7,9 +7,8 @@ const router = express.Router();
 router.post("/add-emergency-type", emergencyTypeValidator(), validate, async(req, res) => {
     try {
   
-    
         let emergencytype = await saveAllEmergencyTypes(req.body.types);
-    
+
         if(emergencytype[0] !== false){
         
             res.json({message: "Emergency type created successfully", status: "OK"})
@@ -30,7 +29,7 @@ router.delete("/delete-emergency-type/:id", async (req, res) => {
         if(deletedType[0] !== false){
             res.json({message: "Emergency type deleted successfully", status: "OK"})
         }else{
-            res.status(400).json({error: "Something went wrong.", actualError: emergencytype[1], status: "NOT OK"})
+            res.status(400).json({error: "Something went wrong.", actualError: deletedType[1], status: "NOT OK"})
         }
     } catch (error) {
         return res.status(400).json({error: "Something went wrong", actualError: error, status: "NOT OK"})

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const EmergencyHistory = require("../model/history");
 const EmergencyType = require("../model/type");
 
 const createEmergencyType = async (body) => {
@@ -92,7 +93,7 @@ const updateEmergencyType = async (id, fields) => {
 const getAllEmergencyTypes = async () => {
   try {
     const types = await EmergencyType.find({});
-
+  
     if (types !== null) {
       return [true, types];
     } else {
