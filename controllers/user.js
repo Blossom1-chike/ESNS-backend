@@ -126,10 +126,8 @@ router.post("/user/sendNotification", async (req, res) => {
   try {
     const { latitude, longitude, id } = req.body;
 
-    const user = await getUserById({ _id: id });
-
-  
-
+    const user = await getUserById(id);
+ 
     if (user[0] === true) {
       if (latitude && longitude) {
         const result = sendEmergencyMessage({
@@ -137,6 +135,7 @@ router.post("/user/sendNotification", async (req, res) => {
           longitude,
           user: user[1],
         });
+        console.log(result, "twilio")
      
         return res.status(200);
       } else {
