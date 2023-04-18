@@ -14,20 +14,20 @@ const sendManualEmergency = async ({ latitude, longitude, type }) => {
 
   let messages = [];
 
-//   client.messages
-//     .create({
-//       body: `There is an ${type?.type} emergency! Check location at ${location}`,
-//       from: phoneNumber,
-//       to: defaultContact,
-//     })
-//     .then((message) => {
-//       console.log(message);
-//       messages.push({ message: message.sid });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       messages.push({ error: err });
-//     });
+  client.messages
+    .create({
+      body: `There is an ${type?.type} emergency! Check location at ${location}`,
+      from: phoneNumber,
+      to: defaultContact,
+    })
+    .then((message) => {
+      console.log(message);
+      messages.push({ message: message.sid });
+    })
+    .catch((err) => {
+      console.log(err);
+      messages.push({ error: err });
+    });
 
   return messages;
 };
