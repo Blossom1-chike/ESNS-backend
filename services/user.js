@@ -76,7 +76,6 @@ const getUserByEmail = async (email) => {
 const getUserById = async (id) => {
   const _id = mongoose.Types.ObjectId(id);
   const user = await User.findOne(_id);
-  console.log(user, "user exists")
   if (user !== null) {
     return [true, user];
   } else {
@@ -85,7 +84,6 @@ const getUserById = async (id) => {
 };
 
 const authenticateUserPassword = async (email, password) => {
-  console.log(email, password, "Details")
   const user = await User.findOne({ email });
   console.log(password, "password");
 
@@ -97,34 +95,43 @@ const authenticateUserPassword = async (email, password) => {
 };
 
 const updateUser = async (id, fields) => {
-  console.log(id, fields,"things to update")
   try {
     const user = await User.findByIdAndUpdate(id, fields, { new: true });
-    console.log(user, "User found to update");
-    if(user !== null){
-        return [true, user]
-    }else{
-        return [false, "User doesn't exist. User is null and/or has been deleted.", "Something went wrong."];
+    if (user !== null) {
+      return [true, user];
+    } else {
+      return [
+        false,
+        "User doesn't exist. User is null and/or has been deleted.",
+        "Something went wrong.",
+      ];
     }
   } catch (error) {
-    return [false, translateError(error)]
+    return [false, translateError(error)];
   }
 };
 
-const updateUserPassword = async(id, password) => {
-    try {
-      const userWithPassword = await User.findByIdAndUpdate(id, {password: await encryptPassword(password)}, {new: true});
-      if(userWithPassword !== null) {
-          return [true, userWithPassword];
-      } else {
-          return [false, "User with ID and Password does not exist. User is null and/or has been deleted,", "Something went wrong."]
-      }
-  
-    } catch (error) {
-        console.log(error);
-        return [false, translateError(error), "Something went wrong"]  
+const updateUserPassword = async (id, password) => {
+  try {
+    const userWithPassword = await User.findByIdAndUpdate(
+      id,
+      { password: await encryptPassword(password) },
+      { new: true }
+    );
+    if (userWithPassword !== null) {
+      return [true, userWithPassword];
+    } else {
+      return [
+        false,
+        "User with ID and Password does not exist. User is null and/or has been deleted,",
+        "Something went wrong.",
+      ];
     }
+  } catch (error) {
+    console.log(error);
+    return [false, translateError(error), "Something went wrong"];
   }
+};
 
 module.exports = {
   createUser,
@@ -133,5 +140,5 @@ module.exports = {
   loginUser,
   authenticateUserPassword,
   updateUser,
-  updateUserPassword
+  updateUserPassword,
 };

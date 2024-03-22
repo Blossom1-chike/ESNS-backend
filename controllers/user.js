@@ -23,11 +23,7 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
     let { firstname, lastname, username, phone, email, password, credentials } =
       req.body;
    
-
-    username = username === undefined ? firstname : username;
     const splitCredential = credentials.trim().split(" ");
-
-
     const contacts = [];
 
     for (let i in splitCredential) {
@@ -45,7 +41,7 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
     let user = await createUser({
       firstname,
       lastname,
-      username,
+      username: username === undefined ? firstname : username,
       phone,
       email,
       password,
@@ -67,7 +63,7 @@ router.post("/signup", signUpValidator(), validate, async (req, res) => {
 
   
     return res
-      .status(200)
+      .status(201)
       .json({
         message: "New User created successfully",
         note: "Check email address to verify your account",
@@ -88,6 +84,7 @@ router.post("/login", loginValidator(), async (req, res) => {
   try {
     const { email, password } = req.body;
     let user = await authenticateUserPassword(email, password);
+    console.log(user)
 
     if (user[0] === true) {
       res.cookie("authCookie", user.token, {
@@ -95,7 +92,7 @@ router.post("/login", loginValidator(), async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24 * 60,
         httpOnly: true,
       });
-
+    console.log(user)
       user[1].token = undefined;
       user[1].createdAt = undefined;
       user[1].updatedAt = undefined;
@@ -130,7 +127,7 @@ router.post("/user/sendNotification", async (req, res) => {
  
     if (user[0] === true) {
       if (latitude && longitude) {
-        const result = sendEmergencyMessage({
+        const result = await sendEmergencyMessage({
           latitude,
           longitude,
           user: user[1],

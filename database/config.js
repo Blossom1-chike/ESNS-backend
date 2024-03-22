@@ -1,3 +1,10 @@
+require("dotenv").config();
+
+const africastalking = {
+  apiKey: process.env.AFRICASTALKING_API_KEY,
+  username: "Chinanu",
+};
+
 const mongoose = require("mongoose");
 const { MONGODB_URI } = process.env;
 
@@ -20,6 +27,7 @@ const closeConnectionToDB = () => {
 }
 
 module.exports = {
+    africastalking,
     connectToDB,
     closeConnectionToDB
 }

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@picovoice/leopard-node": "^1.1.1",
+    "africastalking": "^0.6.6",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -24,8 +25,5 @@
     "mongoose": "^6.9.2",
     "nodemon": "^2.0.20",
     "twilio": "^4.8.0"
-  },
-  "engines": {
-    "node": ">=14 <15"
   }
 }
