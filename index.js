@@ -10,7 +10,7 @@ const PORT = process.env.SERVER_PORT || process.env.PORT || 4000;
 
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
+    "http://localhost:3001",
     "https://esns-frontend-6b1l2ytol-blossom1-chike.vercel.app",
     "https://esns-frontend-gslorg805-blossom1-chike.vercel.app",
     "https://esns-frontend-blossom1-chike.vercel.app",
@@ -21,16 +21,16 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 //To allow CORS
 app.use(cors(corsOptions));

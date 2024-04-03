@@ -13,7 +13,7 @@ const sendManualEmergency = async ({ latitude, longitude, type }) => {
   try {
     const result = Africastalking.SMS
       .send({
-        to: defaultContact,
+        to: [defaultContact],
         message: `There is an ${type?.type} emergency! Check location at ${location}`,
       })
       .then((response) => {

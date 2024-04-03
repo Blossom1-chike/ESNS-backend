@@ -20,23 +20,23 @@ const sendEmergencyMessage = require("../helpers/sendMessage");
 
 router.post("/signup", signUpValidator(), validate, async (req, res) => {
   try {
-    let { firstname, lastname, username, phone, email, password, credentials } =
+    let { firstname, lastname, username, phone, email, password, contacts } =
       req.body;
    
-    const splitCredential = credentials.trim().split(" ");
-    const contacts = [];
+    // const splitCredential = credentials.trim().split(" ");
+    // const contacts = [];
 
-    for (let i in splitCredential) {
-      if(splitCredential[i].includes("+")){
+    // for (let i in splitCredential) {
+    //   if(splitCredential[i].includes("+")){
        
-        const detail = {
-          name: splitCredential[i].split("+")[0],
-          phone: splitCredential[i].split("+")[2],
-        };
+    //     const detail = {
+    //       name: splitCredential[i].split("+")[0],
+    //       phone: splitCredential[i].split("+")[2],
+    //     };
       
-        contacts.push(detail);
-      }
-    }
+    //     contacts.push(detail);
+    //   }
+    // }
    
     let user = await createUser({
       firstname,
@@ -124,6 +124,7 @@ router.post("/user/sendNotification", async (req, res) => {
     const { latitude, longitude, id } = req.body;
 
     const user = await getUserById(id);
+    console.log( user[1])
  
     if (user[0] === true) {
       if (latitude && longitude) {

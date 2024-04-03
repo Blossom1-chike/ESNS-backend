@@ -1,19 +1,21 @@
-const { africastalking } = require("../database/config");
+require("dotenv").config();
+
+const africastalking = {
+  apiKey: process.env.AFRICASTALKING_API_KEY,
+  username: "Chinanu",
+};
 
 const Africastalking = require("africastalking")(africastalking);
 
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
-// const client = require("twilio")(accountSid, authToken);
+const sms = Africastalking.SMS;
 
 const sendEmergencyMessage = ({ latitude, longitude, user }) => {
   const location = `https://www.google.com/maps/search/${latitude},${longitude}/`;
-
+  console.log(user.contacts?.map((x) => x?.phone))
   try {
-    const result = Africastalking.SMS
+    const result = sms
       .send({
-        to: user.contacts?.map((x) => x?.phone),
+        to: user.contacts?.map((x) => `+${x?.phone}`),
         message: `Help!, it is ${
           user.firstname + " " + user.lastname
         }, I am in danger. \nMy current location is ${location}`,
@@ -24,7 +26,8 @@ const sendEmergencyMessage = ({ latitude, longitude, user }) => {
       .catch((error) => {
         console.log(error);
       });
-    console.log(result);
+
+    console.log(result, "my result");
   } catch (ex) {
     console.error(ex);
   }
